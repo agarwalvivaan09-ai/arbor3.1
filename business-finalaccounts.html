@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final Accounts · Arbor Business</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="final">
+<main class="container" id="main">
+  <div class="page-head"><div><h1>Final accounts</h1><p>Trading account, profit and loss account and balance sheet.</p></div><button class="btn" id="printBtn" type="button">Print / save PDF</button></div>
+  <section class="card no-print"><div class="card-head"><h2>Stock</h2><small>Stock is counted, not journalled, so enter it here. Values are saved with this profile.</small></div>
+    <div class="grid g3">
+      <label class="field"><span>Opening stock (₹)</span><input type="number" id="openingStockInput" min="0" step="any"><small id="openHint"></small></label>
+      <label class="field"><span>Closing stock (₹)</span><input type="number" id="closingStockInput" min="0" step="any"></label>
+      <div class="field"><span>&nbsp;</span><button class="btn primary" id="calculateFinalBtn" type="button">Generate and save</button></div></div></section>
+  <div id="faNotes"></div>
+  <section class="card"><h2>Trading account</h2><div class="table-wrap"><table class="fin"><thead><tr><th>Dr particulars</th><th class="num">₹</th><th>Cr particulars</th><th class="num">₹</th></tr></thead><tbody id="tradingBody"></tbody></table></div></section>
+  <section class="card"><h2>Profit and loss account</h2><div class="table-wrap"><table class="fin"><thead><tr><th>Dr particulars</th><th class="num">₹</th><th>Cr particulars</th><th class="num">₹</th></tr></thead><tbody id="plBody"></tbody></table></div></section>
+  <section class="card"><h2>Balance sheet</h2><div class="table-wrap"><table class="fin"><thead><tr><th>Liabilities</th><th class="num">₹</th><th>Assets</th><th class="num">₹</th></tr></thead><tbody id="balanceSheetBody"></tbody></table></div></section>
+</main>
+<script type="module" src="js/pages/business.js"></script>
+</body>
+</html>

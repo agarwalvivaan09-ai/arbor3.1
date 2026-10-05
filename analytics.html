@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resilience · Arbor</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+<body>
+<main class="container" id="main">
+  <div class="page-head">
+    <div><h1>Financial resilience</h1><p>Your HFRI score, the numbers behind it, and how it holds up under stress.</p></div>
+    <div class="row"><a class="btn" href="guide.html#hfri">How HFRI works</a><button class="btn" id="printBtn" type="button">Print / save PDF</button></div>
+  </div>
+  <div id="notes"></div>
+
+  <section class="card"><div class="hero" id="hero"><div class="skeleton" style="width:150px;height:150px;border-radius:50%"></div></div>
+    <div class="dims" id="dims"></div></section>
+
+  <section class="card"><div class="card-head"><h2>Key ratios</h2></div><div class="grid g4" id="ratios"></div></section>
+
+  <section class="card"><div class="card-head"><h2>What would move the score most</h2><small>Illustrative what-ifs from the same formulas. Not advice.</small></div><div id="whatifs"></div></section>
+
+  <section class="card">
+    <div class="card-head"><h2>Stress test</h2><small>A persistent shock, then HFRI is recalculated.</small></div>
+    <div class="grid g3">
+      <label class="field"><span>Income falls by <b id="incLbl">0%</b></span><input id="incomeShockSlider" type="range" min="0" max="80" value="0"></label>
+      <label class="field"><span>Spending rises by <b id="expLbl">0%</b></span><input id="expenseShockSlider" type="range" min="0" max="80" value="0"></label>
+      <label class="field"><span>Lasting for</span><select id="stressMonths"><option value="1">1 month</option><option value="3" selected>3 months</option><option value="6">6 months</option><option value="12">12 months</option></select></label>
+    </div>
+    <div class="grid g4" id="stressOut" style="margin-top:6px"></div>
+    <p id="stressVerdict" class="muted" style="margin:14px 0 0"></p>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Household projection</h2>
+      <label class="row"><span class="muted">Horizon</span><select id="horizon" style="width:auto"><option value="5">5 years</option><option value="10" selected>10 years</option><option value="20">20 years</option></select></label></div>
+    <div class="grid g4" id="mcStats"></div>
+    <div class="chart-box" style="margin-top:16px"><canvas id="mcChart" aria-label="Net worth projection fan chart" role="img"></canvas></div>
+    <p class="muted" style="margin:12px 0 0;font-size:13px">2,000 seeded simulations (seed 42, so results are repeatable). Shaded bands show the 5th–95th and 25th–75th percentile range of net worth in nominal rupees. Income grows ~5% a year with a 4% yearly chance of a job-loss year at 30% income. Spending grows with ~5% inflation. Debts amortise using your payments. Assets use your growth rates with a shared market factor. These are assumptions, not forecasts. <a href="guide.html#montecarlo">Details</a></p>
+  </section>
+</main>
+<script type="module" src="js/pages/analytics.js"></script>
+</body>
+</html>

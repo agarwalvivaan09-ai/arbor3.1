@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guide · Arbor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="container" id="main">
+  <div class="page-head"><div><h1>Arbor guide</h1><p>Everything the app does, how each number is calculated, and what it cannot tell you.</p></div></div>
+  <div class="doc">
+    <nav class="toc" aria-label="On this page" id="toc"></nav>
+    <article class="prose">
+
+<h2 id="start">Getting started</h2>
+<ol>
+  <li><strong>Create an account</strong> on the sign-in page (email and a password of 6+ characters).</li>
+  <li><strong>Create a profile.</strong> A profile is a separate set of books. <em>Personal</em> and <em>Family</em> profiles use the household tools. <em>Business</em> profiles use double-entry accounting. You can have as many as you like.</li>
+  <li><strong>Add your data.</strong> For a personal profile: set your tax rate and opening cash in <em>Add → Settings</em>, log income and expenses, then add assets and debts.</li>
+  <li><strong>Read your HFRI</strong> on the Dashboard, then open <em>Resilience</em> for the breakdown, stress test and projection.</li>
+</ol>
+<div class="notice">Switch or delete profiles from the profile chip in the header. Deleting a profile removes everything in it permanently.</div>
+
+<h2 id="personal">Personal and Family profiles</h2>
+<h3 id="dashboard">Dashboard</h3>
+<ul>
+  <li><strong>Transactions.</strong> Log income as the <em>gross</em> amount; Arbor reduces it by your effective tax rate. If you log pay after tax, keep the tax rate at 0. Mark expenses as essential or not (rent, food, utilities, school fees, transport and insurance are essential).</li>
+  <li><strong>Loan repayments.</strong> Any expense whose category contains <em>EMI, loan, repay, instalment</em> or <em>mortgage</em> is treated as a loan repayment, not as spending. This stops debt payments being counted twice, because repayments already come from the Debts list.</li>
+  <li><strong>Assets.</strong> Mark bank balances, cash and liquid funds as <em>Liquid</em>; only those (plus your cash balance) count toward emergency cover. Property, gold, PPF and similar are not liquid.</li>
+  <li><strong>Debts.</strong> Enter the principal remaining, rate and monthly payment. Repayments reduce the balance in projections.</li>
+  <li><strong>Goals.</strong> Progress is your net worth against the target. The time estimate divides what is left by your monthly surplus and ignores investment growth, so treat it as a rough guide.</li>
+  <li><strong>Tax estimator.</strong> In <em>Settings</em>, enter annual gross income to estimate an effective rate under India's new regime for FY 2026-27 (slabs from ₹4L, rebate making income up to ₹12L tax-free, ₹75,000 standard deduction for salaried people, 4% cess). It ignores surcharge and other deductions.</li>
+</ul>
+<h3 id="definitions">How the headline numbers are defined</h3>
+<table>
+<thead><tr><th>Figure</th><th>Definition</th></tr></thead>
+<tbody>
+<tr><td>Take-home income (monthly)</td><td>Average gross monthly income × (1 − tax rate), plus dividends from stocks after tax.</td></tr>
+<tr><td>Spending (monthly)</td><td>Average monthly expenses excluding loan repayments.</td></tr>
+<tr><td>Averaging window</td><td>The last 12 completed calendar months with data. The current partial month is only used if there is nothing else, and future-dated entries are ignored.</td></tr>
+<tr><td>Cash balance</td><td>Opening cash + take-home income − all expenses (including any EMIs you logged), over all time.</td></tr>
+<tr><td>Net worth</td><td>Cash + assets + stock value − debt.</td></tr>
+<tr><td>Monthly surplus</td><td>Take-home income − spending − loan repayments.</td></tr>
+<tr><td>Liquid savings</td><td>Positive cash balance + assets marked Liquid.</td></tr>
+</tbody></table>
+
+<h3 id="stocks">Portfolio</h3>
+<p>Add holdings with a ticker, quantity and average price. NSE and BSE prices are in ₹; US prices are in $ and converted at the USD→INR rate you set on that page (default ₹88). Live quotes need the small backend in this project (see the Developer page). Without it you can set prices by hand. Dividend yield, if you enter one, is added to your income.</p>
+
+<h2 id="hfri">The HFRI</h2>
+<p>The <strong>Household Financial Resilience Index</strong> is an independent research model by Vivaan Agarwal. It turns four dimensions into a score from 0 to 100, and Arbor uses it in place of the earlier FRI and FIS scores. The full paper, notebook and an online calculator are at <a href="https://agarwalvivaan09-ai.github.io/HFRI/" target="_blank" rel="noopener">the HFRI site</a>.</p>
+<div class="formula">HFRI = 0.25·S + 0.25·D + 0.25·E + 0.25·X
+D    = 0.40·DDTI + 0.60·DDSTI</div>
+<table>
+<thead><tr><th>Dimension</th><th>Input</th><th>Curve</th></tr></thead>
+<tbody>
+<tr><td><strong>S</strong> Savings Strength</td><td>SR = (income − spending) ÷ income</td><td><code>100·(1 − e^(−5.89681·(SR+0.10)))</code>, 0 if SR ≤ −10%</td></tr>
+<tr><td><strong>DDTI</strong> Debt stock</td><td>DTI = debt ÷ annual income</td><td><code>100·e^(−0.0573534·DTI^2.13509)</code></td></tr>
+<tr><td><strong>DDSTI</strong> Debt service</td><td>DSTI = annual repayments ÷ annual income</td><td><code>−521.456·DSTI² + 9.08245·DSTI + 100.005</code>, clipped to 0–100</td></tr>
+<tr><td><strong>E</strong> Emergency Coverage</td><td>EC = liquid savings ÷ monthly essential spending</td><td><code>100·(1 − e^(−0.37028·EC^0.901391))</code></td></tr>
+<tr><td><strong>X</strong> Expense Stability</td><td>CV = std dev ÷ mean of monthly spending</td><td><code>100·e^(−3.13957·CV^1.30837)</code></td></tr>
+</tbody></table>
+<p>Anchor points: a 0% savings rate scores 50 and 25% scores about 88; three months of emergency cover scores about 65; a debt-to-income of 300% scores about 55; a debt-service ratio of 30% scores about 55; a spending CV of 0.33 scores 50.</p>
+<h3 id="hfri-inputs">What Arbor feeds into it</h3>
+<ul>
+  <li>Income, spending, essential spending, debt and repayments come from the definitions above, so the score always matches the Dashboard.</li>
+  <li><strong>Expense Stability</strong> uses the last up-to-six months of spending. With fewer than three months of data Arbor uses the HFRI calculator's default of CV 0.20 and says so.</li>
+  <li>Essential spending defaults to all spending when you have not marked any expense as non-essential.</li>
+</ul>
+<h3 id="bands">Score bands</h3>
+<p>Resilient (80+), Stable (60–79), Vulnerable (40–59) and Fragile (below 40) are labels chosen by Arbor to make the number easy to read. They are <strong>not</strong> thresholds from the paper.</p>
+<h3 id="hfri-limits">What HFRI is not</h3>
+<ul>
+  <li>The paper tested the index on 1,000 <em>simulated</em> households. It has not yet been validated against real household outcomes such as missed payments.</li>
+  <li>Anchors and weights are researcher-defined, and equal weights are a baseline, not a claim that each dimension matters equally for everyone.</li>
+  <li>Expense Stability is the most exploratory dimension: lumpy spending is not always a sign of weakness.</li>
+  <li>The score is a way to compare financial positions. It is not financial advice.</li>
+</ul>
+
+<h2 id="stress">Stress test and what-ifs</h2>
+<p><strong>Stress test (an Arbor addition, not part of the paper).</strong> You choose an income fall, a spending rise and a duration. Arbor applies the shock to your monthly figures, recomputes HFRI, and works out the monthly shortfall (spending + repayments − income). <em>Runway</em> is liquid savings divided by that shortfall. If runway is shorter than the duration, savings run out.</p>
+<p><strong>What-ifs.</strong> Each line changes one thing (for example adding three months of cash) and shows the HFRI after the change. They show sensitivity, not a plan.</p>
+
+<h2 id="montecarlo">Household projection (Monte Carlo)</h2>
+<p>The Resilience page runs 2,000 simulations over 5, 10 or 20 years with a fixed random seed (42), so the same data always gives the same result. Each year:</p>
+<ul>
+  <li><strong>Income</strong> follows a log-normal path (≈5% drift, 8% volatility). Each year has a 4% chance of a job-loss year where income falls to 30% of trend; the trend then continues.</li>
+  <li><strong>Spending</strong> grows with ≈5% inflation (5% volatility) and never falls below today's level.</li>
+  <li><strong>Debts</strong> accrue interest (simple or compound as you chose) and are paid down by your monthly payments until cleared.</li>
+  <li><strong>Cash</strong> earns 3% when positive and costs 12% when overdrawn.</li>
+  <li><strong>Assets and stocks</strong> grow at your growth rates with volatility by kind, driven partly by one shared market factor (correlation 0.5).</li>
+</ul>
+<p>"Net worth grows" means it ends above today's. "Insolvency" means net worth was below zero at any year-end. The chart shows the median and the 25–75 and 5–95 percentile bands. These are model assumptions, not forecasts.</p>
+
+<h2 id="quant">Quant Lab</h2>
+<p>Pick weights and assumptions for equity, fixed income, real estate and cash (prefilled from your holdings when you have them). Arbor computes the portfolio's expected return and volatility using a correlation matrix (equity–bond 0.2, equity–real estate 0.5, bond–real estate 0.3, cash–bond 0.1, others 0), and a Sharpe ratio using the cash return as the risk-free rate. It then simulates investing a fixed amount each year. Weights must add to 100%.</p>
+
+<h2 id="business">Business profiles</h2>
+<p>Business profiles use double-entry bookkeeping: every entry debits one account and credits another for the same amount, so the books always balance.</p>
+<ul>
+  <li><strong>Dashboard → Quick entry</strong> records common events (cash sale, expense paid, capital introduced, drawings, loans) as correct journal entries without you choosing the accounts.</li>
+  <li><strong>Journal</strong> is the book of original entry. Use it for anything the quick entry does not cover.</li>
+  <li><strong>Ledger</strong> shows one account as a T-account with Balance c/d and b/d.</li>
+  <li><strong>Trial Balance</strong> lists balances; debits must equal credits.</li>
+  <li><strong>Final Accounts</strong> builds the Trading Account, Profit and Loss Account and Balance Sheet. Stock is counted, not journalled, so enter closing stock (and opening stock if it is not in the journal). They are saved with the profile and flow into the dashboard and analytics, so profit and net worth agree everywhere.</li>
+  <li><strong>Analytics</strong> shows margin, return on assets, return on equity, debt ratio, debt-to-equity and asset turnover.</li>
+</ul>
+<h3 id="accounts">Accounts available</h3>
+<p>Assets: Cash, Bank, Accounts Receivable, Land, Building, Equipment. Liabilities: Accounts Payable, Loans Payable. Capital and Drawings. Sales. Direct expenses: Purchases, Wages, Carriage Inwards. Indirect expenses: Salary, Rent, Electricity, Other Expenses. Opening Stock.</p>
+
+<h2 id="privacy">Privacy and data</h2>
+<ul>
+  <li>Your data lives in your Firebase project. Security rules limit every record to the signed-in user who created it.</li>
+  <li>The HFRI maths runs in your browser. Stock quotes are the only thing sent to a server, and only the ticker and exchange.</li>
+  <li>Use <em>Print / save PDF</em> on the Resilience and Final Accounts pages to keep a copy.</li>
+</ul>
+
+<h2 id="faq">FAQ</h2>
+<details><summary>My HFRI shows a dash.</summary>It needs at least one income and one expense. Add a transaction from the Dashboard.</details>
+<details><summary>Why is my score lower than I expected?</summary>Open Resilience and look at the four bars. The lowest is usually emergency cover or debt service. The what-ifs list shows the biggest levers.</details>
+<details><summary>Should I log EMIs as expenses?</summary>You can, and cash will fall correctly, but they are not counted as spending. Make sure the same loan is also in Debts so the HFRI sees the repayment.</details>
+<details><summary>The balance sheet does not tally.</summary>Check that closing stock is entered, that opening stock matches the journal, and that no entry was deleted. The Final Accounts page shows the exact difference.</details>
+<details><summary>Live stock prices do not load.</summary>The quote backend must be running and <code>STOCK_API_URL</code> in <code>js/config.js</code> must point to it. See the Developer page.</details>
+<details><summary>What changed from FRI and FIS?</summary>The old FRI and FIS were ad-hoc formulas. Both are replaced by the HFRI, which has published, calibrated curves and documented limits.</details>
+
+<p class="muted" style="margin-top:2em">Arbor is an educational tool and does not give financial, tax or legal advice.</p>
+    </article>
+  </div>
+</main>
+<script type="module">
+  import { bootPage } from "./js/shared.js";
+  await bootPage({ optionalAuth: true });
+  const heads = [...document.querySelectorAll(".prose h2, .prose h3")];
+  const toc = document.getElementById("toc");
+  toc.innerHTML = heads.map((h) => `<a href="#${h.id}" class="${h.tagName === "H3" ? "sub" : ""}">${h.textContent}</a>`).join("");
+  const links = [...toc.querySelectorAll("a")];
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { links.forEach((l) => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id)); } }), { rootMargin: "-80px 0px -70% 0px" });
+  heads.forEach((h) => io.observe(h));
+</script>
+</body>
+</html>

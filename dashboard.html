@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard · Arbor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="container" id="main">
+  <div class="page-head">
+    <div><h1 id="title">Dashboard</h1><p id="subtitle">Your money at a glance.</p></div>
+    <div class="row">
+      <a class="btn" href="analytics.html">Resilience details →</a>
+      <button class="btn primary" id="openPanelBtn" type="button">+ Add</button>
+    </div>
+  </div>
+
+  <div id="notes"></div>
+
+  <section class="card" aria-labelledby="hfriH">
+    <div class="hero" id="hfriHero"><div class="skeleton" style="width:150px;height:150px;border-radius:50%"></div></div>
+  </section>
+
+  <section class="grid g4" style="margin-bottom:20px" id="kpis" aria-label="Key figures"></section>
+
+  <section class="card">
+    <div class="card-head"><h2>Financial goals</h2></div>
+    <form class="row" id="goalForm">
+      <input class="grow" id="goalName" placeholder="Goal, e.g. House down payment" maxlength="60" required>
+      <input class="grow" id="goalAmount" type="number" min="1" step="any" placeholder="Target amount (₹)" required>
+      <button class="btn" type="submit" id="addGoalBtn">Add goal</button>
+    </form>
+    <div id="goalList" class="stack" style="margin-top:14px"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Transactions</h2>
+      <div class="row">
+        <select id="txFilter" aria-label="Filter transactions" style="width:auto"><option value="all">All</option><option value="income">Income</option><option value="expense">Expenses</option></select>
+        <input id="txSearch" type="search" placeholder="Search category" style="width:180px" aria-label="Search category">
+      </div>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Type</th><th>Category</th><th class="num">Amount</th><th></th></tr></thead>
+      <tbody id="transactionList"></tbody>
+    </table></div>
+  </section>
+
+  <div class="grid g2">
+    <section class="card"><div class="card-head"><h2>Assets</h2><a class="btn ghost sm" href="stocks.html">Stocks live in Portfolio →</a></div>
+      <div class="table-wrap"><table><thead><tr><th>Name</th><th>Kind</th><th class="num">Value</th><th class="num">Growth</th><th></th></tr></thead><tbody id="assetList"></tbody></table></div></section>
+    <section class="card"><div class="card-head"><h2>Debts</h2></div>
+      <div class="table-wrap"><table><thead><tr><th>Type</th><th class="num">Balance</th><th class="num">Rate</th><th class="num">Per month</th><th></th></tr></thead><tbody id="liabilityList"></tbody></table></div></section>
+  </div>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="sidePanel" aria-label="Add data" aria-hidden="true">
+  <div class="drawer-head"><strong>Add or edit</strong><button class="btn ghost sm" id="closePanelBtn" type="button" aria-label="Close">✕</button></div>
+  <div class="drawer-body">
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="tx">Transaction</button>
+      <button role="tab" aria-selected="false" data-tab="asset">Asset</button>
+      <button role="tab" aria-selected="false" data-tab="debt">Debt</button>
+      <button role="tab" aria-selected="false" data-tab="settings">Settings</button>
+    </div>
+
+    <form class="tabpanel" data-panel="tx" id="txForm">
+      <label class="field"><span>Type</span><select id="typeInput"><option value="expense">Expense</option><option value="income">Income</option></select></label>
+      <label class="field"><span id="amountLabel">Amount (₹)</span><input id="amountInput" type="number" min="0" step="any" required></label>
+      <label class="field"><span>Category</span><input id="categoryInput" list="cats" maxlength="40" placeholder="e.g. Groceries" required>
+        <datalist id="cats"><option>Salary</option><option>Freelance</option><option>Interest</option><option>Rent</option><option>Groceries</option><option>Utilities</option><option>Transport</option><option>Insurance</option><option>Education</option><option>Health</option><option>Dining</option><option>Shopping</option><option>Travel</option><option>Home Loan EMI</option><option>Car Loan EMI</option></datalist>
+        <small id="catHint">Categories containing EMI, loan or repay are treated as loan repayments, not spending.</small></label>
+      <label class="check" id="essentialRow"><input type="checkbox" id="essentialInput" checked> Essential (rent, food, bills, school fees, transport…)</label>
+      <label class="field"><span>Date</span><input id="dateInput" type="date" required></label>
+      <button class="btn primary block" id="addBtn" type="submit">Add transaction</button>
+    </form>
+
+    <form class="tabpanel" data-panel="asset" id="assetForm" hidden>
+      <label class="field"><span>Name</span><input id="assetType" maxlength="40" placeholder="e.g. Savings account" required></label>
+      <label class="field"><span>Current value (₹)</span><input id="assetValue" type="number" min="0" step="any" required></label>
+      <label class="field"><span>Expected growth per year (%)</span><input id="growthRate" type="number" step="any" placeholder="e.g. 6"></label>
+      <label class="field"><span>Kind</span><select id="assetCategory">
+        <option value="liquid">Liquid: bank balance, cash, liquid fund (counts toward emergency cover)</option>
+        <option value="general">General: gold, bonds, PPF, other</option>
+        <option value="real_estate">Real estate</option></select></label>
+      <button class="btn primary block" id="addAssetBtn" type="submit">Add asset</button>
+    </form>
+
+    <form class="tabpanel" data-panel="debt" id="debtForm" hidden>
+      <label class="field"><span>Type</span><input id="liabilityType" maxlength="40" placeholder="e.g. Home loan" required></label>
+      <label class="field"><span>Principal remaining (₹)</span><input id="principalInput" type="number" min="0" step="any" required></label>
+      <label class="field"><span>Interest rate per year (%)</span><input id="interestInput" type="number" min="0" step="any"></label>
+      <label class="field"><span>Monthly payment (₹)</span><input id="monthlyPaymentInput" type="number" min="0" step="any"></label>
+      <label class="field"><span>Interest basis</span><select id="liabilityCompounding"><option value="compound">Compound (reducing balance)</option><option value="simple">Simple (on original principal)</option></select></label>
+      <button class="btn primary block" id="addLiabilityBtn" type="submit">Add debt</button>
+    </form>
+
+    <form class="tabpanel" data-panel="settings" id="settingsForm" hidden>
+      <label class="field"><span>Effective tax rate on income (%)</span><input id="taxRateInput" type="number" min="0" max="90" step="any" placeholder="0 if you log take-home pay">
+        <small>Income you log is treated as gross and reduced by this rate. Leave at 0 if you log pay after tax.</small></label>
+      <div class="notice">
+        <strong>Estimate my rate</strong> <small>(India, new regime, FY 2026-27, indicative)</small>
+        <div class="row" style="margin-top:8px"><input class="grow" id="estGross" type="number" min="0" step="any" placeholder="Annual gross income (₹)"><button class="btn" type="button" id="estBtn">Estimate</button></div>
+        <label class="check" style="margin:8px 0 0"><input type="checkbox" id="estSalaried" checked> Salaried (₹75,000 standard deduction)</label>
+        <small id="estOut"></small>
+      </div>
+      <label class="field"><span>Opening cash balance (₹)</span><input id="openingCashInput" type="number" step="any" placeholder="0">
+        <small>Cash on hand before your first logged transaction. Cash = this + take-home income − expenses.</small></label>
+      <button class="btn primary block" id="saveSettingsBtn" type="submit">Save settings</button>
+    </form>
+  </div>
+</aside>
+<script type="module" src="js/pages/dashboard.js"></script>
+</body>
+</html>

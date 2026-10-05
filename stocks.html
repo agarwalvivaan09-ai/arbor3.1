@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio · Arbor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="container" id="main">
+  <div class="page-head">
+    <div><h1>Stock portfolio</h1><p>Holdings feed your net worth, dividend income and projections.</p></div>
+    <button class="btn primary" id="refreshStocksBtn" type="button">Refresh market prices</button>
+  </div>
+  <div id="backendNote"></div>
+  <section class="grid g4" id="summary" style="margin-bottom:20px"></section>
+
+  <section class="card">
+    <div class="card-head"><h2>Add a holding</h2></div>
+    <form id="addForm">
+      <div class="grid g3">
+        <label class="field"><span>Exchange</span><select id="exchangeInput"><option value="NSE">India (NSE)</option><option value="BSE">India (BSE)</option><option value="US">US (NYSE / NASDAQ), priced in USD</option></select></label>
+        <label class="field"><span>Ticker</span><input id="tickerInput" placeholder="e.g. TCS or AAPL" maxlength="20" required autocapitalize="characters"></label>
+        <label class="field"><span>Quantity</span><input id="quantityInput" type="number" min="0" step="any" required></label>
+        <label class="field"><span>Average purchase price</span><input id="purchasePriceInput" type="number" min="0" step="any" required><small>In the stock's own currency (₹ for NSE/BSE, $ for US).</small></label>
+        <label class="field"><span>Dividend yield (% a year, optional)</span><input id="dividendInput" type="number" min="0" step="any" placeholder="0"></label>
+        <label class="field"><span>Current price (optional)</span><input id="manualPriceInput" type="number" min="0" step="any"><small>Used if live quotes are unavailable.</small></label>
+      </div>
+      <button class="btn primary" id="addStockBtn" type="submit">Add holding</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Your holdings</h2>
+      <label class="row"><span class="muted">USD → INR</span><input id="fxInput" type="number" min="1" step="0.01" style="width:100px" aria-label="USD to INR rate"></label></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Ticker</th><th class="num">Qty</th><th class="num">Avg cost</th><th class="num">Price</th><th class="num">Value (₹)</th><th class="num">Return</th><th>Price source</th><th></th></tr></thead>
+      <tbody id="stockList"></tbody>
+    </table></div>
+  </section>
+</main>
+<script type="module" src="js/pages/stocks.js"></script>
+</body>
+</html>

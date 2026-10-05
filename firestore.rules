@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function owns() { return signedIn() && resource.data.uid == request.auth.uid; }
+    function createsOwn() { return signedIn() && request.resource.data.uid == request.auth.uid; }
+    function keepsOwner() { return request.resource.data.uid == resource.data.uid; }
+
+    match /{col}/{id} {
+      allow read: if (col in ['profiles','transactions','liabilities','assets','stocks','goals','journalEntries','taxSettings']) && signedIn() && (resource == null || owns());
+      allow delete: if (col in ['profiles','transactions','liabilities','assets','stocks','goals','journalEntries','taxSettings']) && owns();
+      allow create: if (col in ['profiles','transactions','liabilities','assets','stocks','goals','journalEntries','taxSettings']) && createsOwn();
+      allow update: if (col in ['profiles','transactions','liabilities','assets','stocks','goals','journalEntries','taxSettings']) && owns() && keepsOwner();
+    }
+    // resource == null lets get() on a not-yet-created doc (e.g. taxSettings) return 'missing' instead of permission-denied.
+    match /users/{uid} { allow read, write: if signedIn() && request.auth.uid == uid; }
+  }
+}

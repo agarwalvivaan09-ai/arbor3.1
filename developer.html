@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Developer · Arbor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="container" id="main">
+  <section class="card"><div class="dev-hero" id="hero"></div></section>
+  <div class="grid g2">
+    <section class="card" id="aboutCard"><h2>About</h2><div id="about"></div></section>
+    <section class="card" id="linksCard"><h2>Links</h2><div class="grid" id="links"></div></section>
+  </div>
+  <section class="card" id="skillsCard"><h2>Skills</h2><div class="chips" id="skills"></div></section>
+  <section class="card" id="projectsCard"><h2>Projects</h2><div class="grid g2" id="projects"></div></section>
+  <section class="card" id="timelineCard"><h2>Timeline</h2><div class="timeline" id="timeline"></div></section>
+
+  <section class="card" id="techCard">
+    <h2>About this build</h2>
+    <p class="muted">Arbor <span id="ver"></span> · static front end (HTML, CSS, ES modules) · Firebase Auth and Firestore · Chart.js for charts.</p>
+    <details><summary>Run it locally</summary>
+<pre class="formula">npm test                         # 13 logic tests: HFRI, finance, accounting, simulations
+npx firebase-tools emulators:start --only hosting,firestore
+cd backend &amp;&amp; npm install &amp;&amp; npm start   # optional: live stock quotes on :3000</pre></details>
+    <details><summary>Deploy</summary>
+<pre class="formula">npm run deploy                   # hosting + firestore.rules
+# Stock quotes: deploy backend/ (or the Cloud Function) and set STOCK_API_URL in public/js/config.js</pre></details>
+    <details><summary>Project layout</summary>
+<pre class="formula">public/js/hfri.js          HFRI formulas, what-ifs, stress test
+public/js/core-finance.js  personal finance numbers (single source of truth)
+public/js/accounting.js    double-entry maths, final accounts
+public/js/engine.js        seeded Monte Carlo + portfolio stats
+public/js/pages/*.js       one controller per page
+public/js/developer-config.js   edit this page's content</pre></details>
+    <p id="contactNote" class="muted"></p>
+  </section>
+</main>
+<script type="module" src="js/pages/developer.js"></script>
+</body>
+</html>

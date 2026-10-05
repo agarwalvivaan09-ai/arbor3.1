@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Journal · Arbor Business</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="journal">
+<main class="container" id="main">
+  <div class="page-head"><div><h1>Journal</h1><p>Every entry debits one account and credits another by the same amount.</p></div></div>
+  <section class="card"><div class="card-head"><h2>New entry</h2></div>
+    <form id="journalForm"><div class="grid g4">
+      <label class="field"><span>Date</span><input type="date" id="journalDate" required></label>
+      <label class="field"><span>Debit</span><select id="debitAccount" required><option value="">Select account</option></select></label>
+      <label class="field"><span>Credit</span><select id="creditAccount" required><option value="">Select account</option></select></label>
+      <label class="field"><span>Amount (₹)</span><input type="number" id="journalAmount" min="0" step="any" required></label></div>
+      <label class="field"><span>Narration (optional)</span><input id="journalNarr" maxlength="80"></label>
+      <button class="btn primary" type="submit" id="addJournalBtn">Add entry</button></form></section>
+  <section class="card"><div class="card-head"><h2>Journal book</h2></div>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Particulars</th><th class="num">Debit (₹)</th><th class="num">Credit (₹)</th><th></th></tr></thead><tbody id="journalList"></tbody></table></div></section>
+</main>
+<script type="module" src="js/pages/business.js"></script>
+</body>
+</html>

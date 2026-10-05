@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard · Arbor Business</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="dashboard">
+<main class="container" id="main">
+  <div class="page-head"><div><h1 id="title">Business</h1><p>Every figure here comes from your journal, so it always agrees with the ledger and final accounts.</p></div><a class="btn" href="business-finalaccounts.html">Final accounts →</a></div>
+  <div id="notes"></div>
+  <section class="grid g4" id="kpis" style="margin-bottom:20px"></section>
+  <div class="grid g2">
+    <section class="card"><div class="card-head"><h2>Quick entry</h2></div>
+      <form id="quickForm">
+        <label class="field"><span>What happened?</span><select id="quickKind"></select></label>
+        <label class="field hide" id="pickRow"><span>Which account?</span><select id="quickPick"></select></label>
+        <div class="grid g2"><label class="field"><span>Date</span><input type="date" id="quickDate" required></label>
+        <label class="field"><span>Amount (₹)</span><input type="number" id="quickAmount" min="0" step="any" required></label></div>
+        <label class="field"><span>Narration (optional)</span><input id="quickNarr" maxlength="80" placeholder="e.g. Invoice 1042"></label>
+        <p class="muted" id="quickPreview" style="font-size:13px"></p>
+        <button class="btn primary block" type="submit" id="quickBtn">Record entry</button>
+      </form></section>
+    <section class="card"><div class="card-head"><h2>Recent entries</h2><a class="btn ghost sm" href="business-journal.html">Full journal →</a></div>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Entry</th><th class="num">Amount</th><th></th></tr></thead><tbody id="recentList"></tbody></table></div></section>
+  </div>
+</main>
+<script type="module" src="js/pages/business.js"></script>
+</body>
+</html>

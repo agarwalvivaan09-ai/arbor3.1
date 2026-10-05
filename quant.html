@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quant Lab · Arbor</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+<body>
+<main class="container" id="main">
+  <div class="page-head"><div><h1>Quant Lab</h1><p>Try an asset allocation and see how investing your monthly surplus could play out.</p></div>
+    <a class="btn" href="guide.html#quant">How it works</a></div>
+
+  <section class="card"><div class="card-head"><h2>Starting point</h2></div><div class="grid g3" id="capital"></div></section>
+
+  <section class="card">
+    <div class="card-head"><h2>Allocation and assumptions</h2><small>Edit any number. Correlations are fixed (see guide).</small></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Asset class</th><th class="num">Weight %</th><th class="num">Expected return %</th><th class="num">Volatility %</th></tr></thead>
+      <tbody id="allocRows"></tbody>
+      <tfoot><tr><td>Total</td><td class="num" id="wTotal">100</td><td colspan="2"><button class="btn sm" id="normBtn" type="button">Normalise to 100%</button></td></tr></tfoot>
+    </table></div>
+    <div id="wMsg" class="notice warn hide" style="margin-top:12px"></div>
+    <div class="grid g3" style="margin-top:16px">
+      <label class="field"><span>Starting wealth (₹)</span><input id="startWealth" type="number" step="any"></label>
+      <label class="field"><span>Invested each year (₹)</span><input id="annualContribution" type="number" step="any"><small>Prefilled with your monthly surplus × 12.</small></label>
+      <label class="field"><span>Horizon</span><select id="qHorizon"><option value="5">5 years</option><option value="10" selected>10 years</option><option value="20">20 years</option></select></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Portfolio statistics</h2></div>
+    <div class="grid g3" id="pStats"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Projection</h2></div>
+    <div class="grid g4" id="qStats"></div>
+    <div class="chart-box" style="margin-top:16px"><canvas id="qChart" role="img" aria-label="Wealth projection fan chart"></canvas></div>
+    <p class="muted" style="margin:12px 0 0;font-size:13px">2,000 seeded simulations. Annual returns are log-normal; the contribution is added at each year-end. Past market behaviour does not guarantee future returns.</p>
+  </section>
+</main>
+<script type="module" src="js/pages/quant.js"></script>
+</body>
+</html>

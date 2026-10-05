@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Arbor: track your money and measure financial resilience with the HFRI.">
+  <title>Sign in · Arbor</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2334d399'/%3E%3Ctext x='50' y='70' font-size='64' text-anchor='middle' font-family='Arial' font-weight='800' fill='%23052e1f'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="auth" id="main">
+  <section class="auth-art">
+    <div class="brand" style="margin-bottom:28px"><span class="logo" aria-hidden="true">A</span>Arbor</div>
+    <h1>Know how much of a shock your money can take.</h1>
+    <p class="muted" style="max-width:46ch">Arbor tracks income, spending, debt and savings, then scores your household with the <a href="https://agarwalvivaan09-ai.github.io/HFRI/" target="_blank" rel="noopener">Household Financial Resilience Index (HFRI)</a>. Business profiles get a full double-entry set of books.</p>
+    <ul>
+      <li>HFRI score from 0 to 100, with the four dimensions behind it</li>
+      <li>Stress tests and seeded Monte Carlo projections</li>
+      <li>Journal, ledger, trial balance and final accounts for businesses</li>
+    </ul>
+    <p><a href="guide.html">Read the guide</a> · <a href="developer.html">About the developer</a></p>
+  </section>
+
+  <section class="auth-form">
+    <form class="auth-card" id="authForm" novalidate>
+      <h2 style="font-size:24px">Welcome</h2>
+      <p class="muted">Sign in, or create an account in one step.</p>
+      <label class="field"><span>Email</span><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+      <label class="field"><span>Password</span>
+        <input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" required>
+      </label>
+      <label class="check"><input type="checkbox" id="showPw"> Show password</label>
+      <button class="btn primary block" id="loginBtn" type="submit">Sign in</button>
+      <button class="btn block" id="signupBtn" type="button" style="margin-top:10px">Create account</button>
+      <button class="btn ghost block" id="forgotBtn" type="button" style="margin-top:10px">Forgot password?</button>
+      <div id="message" class="notice hide" role="status" aria-live="polite" style="margin-top:16px"></div>
+    </form>
+  </section>
+</main>
+<script type="module" src="js/pages/login.js"></script>
+</body>
+</html>

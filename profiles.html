@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profiles · Arbor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="container" id="main">
+  <div class="page-head">
+    <div><h1>Choose a profile</h1><p>Each profile keeps its own transactions, assets, debts and books.</p></div>
+  </div>
+  <div class="profiles-grid" id="profilesGrid" aria-live="polite"><div class="skeleton" style="height:130px"></div></div>
+  <p class="muted" style="margin-top:28px">New here? Read the <a href="guide.html">guide</a>. <strong>Personal</strong> and <strong>Family</strong> profiles use the household tools and HFRI; <strong>Business</strong> profiles use double-entry accounting.</p>
+</main>
+
+<dialog id="newDlg">
+  <form method="dialog" id="newForm">
+    <h2>New profile</h2>
+    <label class="field"><span>Name</span><input id="newName" maxlength="40" placeholder="e.g. My finances" required></label>
+    <label class="field"><span>Type</span>
+      <select id="newMode">
+        <option value="personal">Personal: income, spending, HFRI, portfolio</option>
+        <option value="family">Family: same tools, for a shared household</option>
+        <option value="business">Business: journal, ledger, final accounts</option>
+      </select>
+    </label>
+    <div class="row" style="justify-content:flex-end"><button class="btn ghost" value="cancel" type="button" id="newCancel">Cancel</button><button class="btn primary" id="newOk" type="submit">Create</button></div>
+  </form>
+</dialog>
+
+<dialog id="delDlg">
+  <h2>Delete profile</h2>
+  <p>This permanently deletes <strong id="delName"></strong> and everything in it. Type its name to confirm.</p>
+  <input id="delConfirm" autocomplete="off">
+  <div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost" id="delCancel" type="button">Cancel</button><button class="btn danger" id="delOk" type="button" disabled>Delete forever</button></div>
+</dialog>
+<script type="module" src="js/pages/profiles.js"></script>
+</body>
+</html>
